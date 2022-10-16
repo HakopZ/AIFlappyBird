@@ -269,7 +269,7 @@ namespace flappyBird
                 int end = (int)(population.Length * 0.80);
                 for (int i = start; i < end; i++)
                 {
-                    population[i].Brain.Mutate(rand, 0.15);
+                    population[i].Brain.Mutate(rand, 0.5);
                 }
                 for (int i = end; i < population.Length; i++)
                 {

@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PipelineBuildEvent xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <SourceFile>D:/GitHub/AIFlappyBird/flappyBird/Content/Font.spritefont</SourceFile>
+  <SourceTime>2019-06-11T16:49:30.4547089-07:00</SourceTime>
+  <DestFile>D:/GitHub/AIFlappyBird/flappyBird/Content/bin/Windows/Content/Font.xnb</DestFile>
+  <DestTime>2022-10-15T19:21:11.6931994-07:00</DestTime>
+  <Importer>FontDescriptionImporter</Importer>
+  <ImporterTime>2018-12-08T08:35:54-08:00</ImporterTime>
+  <Processor>FontDescriptionProcessor</Processor>
+  <ProcessorTime>2018-12-08T08:35:54-08:00</ProcessorTime>
+  <Parameters>
+    <Key>PremultiplyAlpha</Key>
+    <Value>True</Value>
+  </Parameters>
+  <Parameters>
+    <Key>TextureFormat</Key>
+    <Value>Compressed</Value>
+  </Parameters>
+  <Dependencies />
+  <BuildAsset />
+  <BuildOutput />
+</PipelineBuildEvent>
