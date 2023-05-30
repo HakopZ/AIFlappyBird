@@ -7,7 +7,7 @@
     <ProductVersion>8.0.30703</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{E53453B8-EEAB-41DE-A297-BCB6CF8D52AE}</ProjectGuid>
-    <OutputType>WinExe</OutputType>
+    <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>flappyBird</RootNamespace>
     <AssemblyName>flappyBird</AssemblyName>
@@ -41,11 +41,16 @@
   <PropertyGroup>
     <ApplicationManifest>app.manifest</ApplicationManifest>
   </PropertyGroup>
+  <PropertyGroup>
+    <StartupObject />
+  </PropertyGroup>
   <ItemGroup>
-    <Compile Include="Activations.cs" />
+    <Compile Include="ActivationAndErrorFunction.cs" />
     <Compile Include="Bird.cs" />
+    <Compile Include="Dendrite.cs" />
     <Compile Include="Extensions.cs" />
     <Compile Include="Game1.cs" />
+    <Compile Include="GeneticLearning.cs" />
     <Compile Include="Layer.cs" />
     <Compile Include="Network.cs" />
     <Compile Include="Neuron.cs" />

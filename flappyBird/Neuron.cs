@@ -4,34 +4,51 @@ using System.Text;
 
 namespace flappyBird
 {
-    class Neuron
+    public class Neuron
     {
-        public float[] Weights;
-        public float Bias;
-        public float Output;
-        public Func<float, float> Activation;
-        public Neuron(Func<float, float> activation, int inputCount)
+        public double Bias { get; set; }
+        public Dendrite[] Dendrites { get; set; }
+        public double Output { get; set; }
+        public double Input { get; private set; }
+        public double Delta { get; set; }
+        public ActivationFunction Activation { get; set; }
+
+        public Neuron(ActivationFunction activation, Neuron[] previousNerons)
         {
             Activation = activation;
-            Weights = new float[inputCount];
-        }
-        public void Randomize(Random rand)
-        {
-            Bias = (float)(rand.NextDouble() * (0.5 + 0.5) - 0.5);
-            for (int i = 0; i < Weights.Length; i++)
+            if (previousNerons != null)
             {
-                Weights[i] = (float)(rand.NextDouble() * (0.5 + 0.5) - 0.5);
+                Dendrites = new Dendrite[previousNerons.Length];
+                for (int i = 0; i < Dendrites.Length; i++)
+                {
+                    Dendrites[i] = new Dendrite(previousNerons[i], this, 0);
+                }
+            }
+            else
+            {
+                Dendrites = null;
             }
         }
-        public float Compute(float[] inputs)
+
+        public void Randomize(Random random, double min, double max)
         {
-            float sum = 0;
-            for (int i = 0; i < inputs.Length; i++)
+            Bias = random.NextDouble(min, max);
+            foreach (var dendrite in Dendrites)
             {
-                sum += inputs[i] * Weights[i];
+                dendrite.Weight = random.NextDouble(min, max);
             }
-            Output = Activation(sum + Bias);
+        }
+
+        public double Compute()
+        {
+            Input = Bias;
+            for (int i = 0; i < Dendrites.Length; i++)
+            {
+                Input += Dendrites[i].Compute();
+            }
+            Output = Activation.Function(Input);
             return Output;
         }
+
     }
 }

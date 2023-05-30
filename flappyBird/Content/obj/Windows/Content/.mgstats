@@ -1,4 +1,4 @@
 Source File,Dest File,Processor Type,Content Type,Source File Size,Dest File Size,Build Seconds
-"D:/GitHub/AIFlappyBird/flappyBird/Content/flappy-bird.png","D:/GitHub/AIFlappyBird/flappyBird/Content/bin/Windows/Content/flappy-bird.xnb","TextureProcessor","Texture2DContent",28528,1242361,0.0460011
-"D:/GitHub/AIFlappyBird/flappyBird/Content/Font.spritefont","D:/GitHub/AIFlappyBird/flappyBird/Content/bin/Windows/Content/Font.xnb","FontDescriptionProcessor","SpriteFontContent",2068,21521,0.2530025
-"D:/GitHub/AIFlappyBird/flappyBird/Content/pipe.png","D:/GitHub/AIFlappyBird/flappyBird/Content/bin/Windows/Content/pipe.xnb","TextureProcessor","Texture2DContent",9716,14125,0.5897713
+"D:/Github/flappyBird/Content/flappy-bird.png","D:/Github/flappyBird/Content/bin/Windows/Content/flappy-bird.xnb","TextureProcessor","Texture2DContent",28528,1242361,0.0649929
+"D:/Github/flappyBird/Content/Font.spritefont","D:/Github/flappyBird/Content/bin/Windows/Content/Font.xnb","FontDescriptionProcessor","SpriteFontContent",2068,21521,0.3214243
+"D:/Github/flappyBird/Content/pipe.png","D:/Github/flappyBird/Content/bin/Windows/Content/pipe.xnb","TextureProcessor","Texture2DContent",9716,14125,0.4786097

@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PipelineBuildEvent xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-  <SourceFile>D:/GitHub/AIFlappyBird/flappyBird/Content/pipe.png</SourceFile>
-  <SourceTime>2019-06-11T16:49:30.4826704-07:00</SourceTime>
-  <DestFile>D:/GitHub/AIFlappyBird/flappyBird/Content/bin/Windows/Content/pipe.xnb</DestFile>
-  <DestTime>2022-10-15T19:21:11.432176-07:00</DestTime>
+  <SourceFile>D:/Github/flappyBird/Content/pipe.png</SourceFile>
+  <SourceTime>2023-05-29T13:15:47.8544627-07:00</SourceTime>
+  <DestFile>D:/Github/flappyBird/Content/bin/Windows/Content/pipe.xnb</DestFile>
+  <DestTime>2023-05-29T13:17:46.3621814-07:00</DestTime>
   <Importer>TextureImporter</Importer>
   <ImporterTime>2018-12-08T08:35:54-08:00</ImporterTime>
   <Processor>TextureProcessor</Processor>

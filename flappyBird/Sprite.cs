@@ -8,13 +8,13 @@ using System.Threading.Tasks;
 
 namespace flappyBird
 {
-    class Sprite
+    public class Sprite
     {
         public Texture2D Texture;
         public Vector2 Position;
-        public float rotation;
+        public double rotation;
         public Color color;
-        public float scale;
+        public double scale;
         public SpriteEffects spriteEffects;
 
         public virtual Vector2 Origin
@@ -28,7 +28,7 @@ namespace flappyBird
         {
             get
             {
-                return new Vector2(Texture.Width * scale, Texture.Height * scale);
+                return new Vector2(Texture.Width * (float)scale, Texture.Height * (float)scale);
             }
         }
         public Rectangle Hitbox
@@ -38,7 +38,7 @@ namespace flappyBird
                 return new Rectangle((int)Position.X, (int)Position.Y, (int)Size.X, (int)Size.Y);
             }
         }
-        public Sprite(Texture2D texture, Vector2 Position, float rotation, Color color, float scale)
+        public Sprite(Texture2D texture, Vector2 Position, double rotation, Color color, double scale)
         {
             Texture = texture;
             this.Position = Position;
@@ -48,7 +48,7 @@ namespace flappyBird
         }
         public virtual void Draw(SpriteBatch spriteBatch)
         {
-            spriteBatch.Draw(Texture, Position, null, color, rotation, Origin, scale, spriteEffects, 0f);
+            spriteBatch.Draw(Texture, Position, null, color, (float)rotation, Origin, (float)scale, spriteEffects, 0f);
         }
         public virtual void Update(GameTime gameTime)
         {

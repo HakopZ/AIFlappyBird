@@ -19,19 +19,17 @@ namespace flappyBird
         Bird bird;
         List<Pipes> pipes;
         TimeSpan pipeSpan;
-        bool isUpdating = true;
 
         Random rand = new Random();
-        float[][] inputs;
-        float[][] outputs;
-        int gap = 0;
+        double[][] inputs;
+        double[][] outputs;
         int gen = 0;
-
+        double mutateRate = 0.01;
         KeyboardState ks;
         KeyboardState prevKs;
         Bird[] population;
         public Game1()
-        { 
+        {
             graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
         }
@@ -56,12 +54,11 @@ namespace flappyBird
         protected override void LoadContent()
         {
             // Create a new SpriteBatch, which can be used to draw textures.
-            
+
             spriteBatch = new SpriteBatch(GraphicsDevice);
             font = Content.Load<SpriteFont>("Font");
-            int RandY = rand.Next(-350, -100);
             pipes = new List<Pipes>();
-            
+
             bird = new Bird(new Vector2(0, 0), Color.White, 0f, 0.085f, Content.Load<Texture2D>("flappy-bird"), new Vector2(50, 50), -0.6f);
 
             population = new Bird[1000];
@@ -69,10 +66,10 @@ namespace flappyBird
 
             for (int x = 0; x < population.Length; x++)
             {
-                population[x] = new Bird(new Vector2(0, 0), Color.White, 0f, 0.085f, Content.Load<Texture2D>("flappy-bird"), new Vector2(50, 50), -0.6f);
+                population[x] = new Bird(new Vector2(0, 0), Color.White, 0f, 0.085f, Content.Load<Texture2D>("flappy-bird"), new Vector2(50, GraphicsDevice.Viewport.Y / 2), -0.6f);
 
 
-                population[x].Brain.Randomize(rand);
+                population[x].Brain.Randomize(rand, -2, 2);
             }
         }
 
@@ -91,71 +88,19 @@ namespace flappyBird
         /// </summary>
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         /// 
-        Network TrainNet(float[][] inputs, float[][] desiredOutputs, int populationSize, int maxGeneration = -1)
-        {
-            (Network net, double mae)[] population = new(Network, double)[populationSize];
-            for (int i = 0; i < populationSize; i++)
-            {
-                population[i] = (new Network(Activations.BinaryStep, 2, 2, 1), float.MaxValue);
-                population[i].net.Randomize(rand);
-            }
-            int gen = 0;
-            while (true)
-            {
-                for (int i = 0; i < population.Length; i++)
-                {
-                    population[i].mae = Mae(population[i].net, inputs, desiredOutputs);
-                }
-                Array.Sort(population, (a, b) => a.mae.CompareTo(b.mae));
-
-                for (int i = 0; i < inputs.Length; i++)
-                {
-                    float[] output = population[0].net.Compute(inputs[i]);
-                    if(output[0] == 1)
-                    {
-                        bird.Jump();
-                    }
-                }
-                
-                if (population[0].mae == 0 || gen == maxGeneration)
-                {
-                    break;
-                }
-                int end = (int)(population.Length * 0.90f);
-                for (int i = 1; i < end; i++)
-                {
-                    population[i].net.Mutate(rand, 0.15);
-                }
-                for (int i = end; i < population.Length; i++)
-                {
-                    population[i].net.Randomize(rand);
-                }
-                gen++;
-            }
-            return population[0].net;
-        }
-         double Mae(Network net, float[][] input, float[][] DesiredOutput)
-        {
-            double mae = 0;
-            for (int i = 0; i < input.Length; i++)
-            {
-                float[] output = net.Compute(input[i]);
-                mae += output.Zip(DesiredOutput[i], (actual, expected) => Math.Abs(expected - actual)).Average();
-            }
-            return mae / input.Length;
-        }
+       
         void MakePipe(GameTime gameTime)
         {
-            
-                pipeSpan += gameTime.ElapsedGameTime;
-                if (pipeSpan > TimeSpan.FromMilliseconds(1000) || pipes.Count == 0)
-            
-                {
-                    pipeSpan = TimeSpan.Zero;
-                    int RandomY = rand.Next(-350, -100);
-                    pipes.Add(new Pipes(3f, Content.Load<Texture2D>("pipe"), new Vector2(GraphicsDevice.Viewport.Width, RandomY), Color.White, 0f));
-                }
-            
+
+            pipeSpan += gameTime.ElapsedGameTime;
+            if (pipeSpan > TimeSpan.FromMilliseconds(1000) || pipes.Count == 0)
+
+            {
+                pipeSpan = TimeSpan.Zero;
+                int RandomY = rand.Next(-350, -100);
+                pipes.Add(new Pipes(3f, Content.Load<Texture2D>("pipe"), new Vector2(GraphicsDevice.Viewport.Width, RandomY), Color.White, 0f));
+            }
+
         }
         void NeverForget()
         {
@@ -166,9 +111,10 @@ namespace flappyBird
             for (int i = 0; i < population.Length; i++)
             {
                 population[i].HitPipe = false;
-                population[i].Position = new Vector2(50, 50);
+                population[i].Fitness = 0;
+                
+                population[i].Position = new Vector2(50, GraphicsDevice.Viewport.Y / 2);
             }
-            isUpdating = true;
             counter = 0;
         }
         protected override void Update(GameTime gameTime)
@@ -178,111 +124,94 @@ namespace flappyBird
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
 
-           
-                MakePipe(gameTime);
-                bird.Update(gameTime);
-                
-                for (int i = 0; i < pipes.Count; i++)
-                {
-                    pipes[i].Update(gameTime);
-                    if (pipes[i].TopPipe.Hitbox.Intersects(bird.Hitbox) || pipes[i].BottomPipe.Hitbox.Intersects(bird.Hitbox))
-                    {
-                        bird.HitPipe = true;
-                    }   
-                    if (pipes[i].X + pipes[i].width < 0)
-                    {
-                        pipes.Remove(pipes[i]);
-                        //break;
-                    }
-                    if (!pipes[i].isPassed && bird.Position.X > pipes[i].X)
-                    {
-                        pipes[i].isPassed = true;
-                        counter++;
-                    }
-                }
 
-                if (bird.Position.Y - bird.Hitbox.Height / 2 < 0 || bird.Position.Y + bird.Hitbox.Height / 2 > GraphicsDevice.Viewport.Height)
-                {
-                    bird.HitPipe = true;
-                }
-                var pipesAhead = pipes.Where(x => x.TopPipe.Hitbox.X + x.TopPipe.Hitbox.Width / 2 > bird.Hitbox.X).ToArray();
-                Array.Sort(pipesAhead, (a, b) => a.Position.X.CompareTo(b.Position.X));
-                var nextPipe = pipesAhead.FirstOrDefault();
+            MakePipe(gameTime);
+            
+            for (int i = 0; i < pipes.Count; i++)
+            {
+                pipes[i].Update(gameTime);
+            }
 
-                if (nextPipe != null)
-                { 
-                    for (int i = 0; i < population.Length; i++)
-                    {
+            if (bird.Position.Y - bird.Hitbox.Height / 2 < 0 || bird.Position.Y + bird.Hitbox.Height / 2 > GraphicsDevice.Viewport.Height)
+            {
+                bird.HitPipe = true;
+            }
+            var pipesAhead = pipes.Where(x => x.TopPipe.Hitbox.X + x.TopPipe.Hitbox.Width / 2 > bird.Hitbox.X).ToArray();
+            Array.Sort(pipesAhead, (a, b) => a.Position.X.CompareTo(b.Position.X));
+            var nextPipe = pipesAhead.FirstOrDefault();
 
-                    Vector2 distance = new Vector2(nextPipe.Position.X - population[i].Position.X, nextPipe.gap - population[i].Position.Y);
-                    float[] output = population[i].Brain.Compute(new float[] { distance.X, distance.Y });
-
-                        if (output[0] == 1)
-                        {
-                            population[i].Jump();
-                        }
-                    }
-                }
-
-
-                int casualties = 0;
+            if (nextPipe != null)
+            {
                 for (int i = 0; i < population.Length; i++)
                 {
-                    population[i].Update(gameTime);
-                    if (population[i].HitPipe)
+
+                    Vector2 distance = new Vector2(nextPipe.Position.X - population[i].Position.X, (float)nextPipe.gap - population[i].Position.Y);
+                    double[] output = population[i].Brain.Compute(new double[] { distance.X, distance.Y });
+
+                    if (output[0] == 1)
                     {
-                        casualties++;
+                        population[i].Jump();
                     }
-                    if (population[i].Hitbox.Y + population[i].Hitbox.Height / 2 < 0 || population[i].Hitbox.Y - population[i].Hitbox.Height / 2 > GraphicsDevice.Viewport.Height)
+                }
+            }
+            
+            for (int i = 0; i < population.Length; i++)
+            {
+                population[i].Update(gameTime);
+               
+                if (population[i].Hitbox.Y + population[i].Hitbox.Height / 2 < 0 || population[i].Hitbox.Y - population[i].Hitbox.Height / 2 > GraphicsDevice.Viewport.Height)
+                {
+                    population[i].HitPipe = true;
+                    continue;
+                }
+                for (int p = 0; p < pipes.Count; p++)
+                {
+                    if (population[i].Hitbox.Intersects(pipes[p].TopPipe.Hitbox) || population[i].Hitbox.Intersects(pipes[p].BottomPipe.Hitbox))
                     {
                         population[i].HitPipe = true;
-                        continue;
+                        break;
                     }
-                    for (int p = 0; p < pipes.Count; p++)
-                    {
-                        if (population[i].Hitbox.Intersects(pipes[p].TopPipe.Hitbox) || population[i].Hitbox.Intersects(pipes[p].BottomPipe.Hitbox))
-                        {
-                            population[i].HitPipe = true;
-                            break;
-                        }
-                    }
+                    
                 }
-                //Network net = TrainNet(inputs, outputs, 1000);
-
-
-                
-                
-                // TODO: Add your update logic here
-
-                if(bird.HitPipe)
-                {
-                    bird.speed = new Vector2(0, 0);
-                }
-                bird.Update(gameTime);   
-            
-            if(casualties == population.Length)
+                if(!population[i].HitPipe)
+                    population[i].Fitness++;
+            }
+            foreach(var pipe in pipes)
             {
+                if (!pipe.isPassed && population[0].Position.X > pipe.X)
+                {
+                    pipe.isPassed = true;
+                    counter++;
+                }
+            }
+            
+            if (bird.HitPipe)
+            {
+                bird.speed = new Vector2(0, 0);
+            }
+            bird.Update(gameTime);
+            bool done = true;
+            foreach(var b in population)
+            {
+                if (!b.HitPipe)
+                {
+                    done = false;
+                    break;
+                }
+            }
+            if (done)
+            {
+                GeneticLearning.Train(population, rand, mutateRate);
                 NeverForget();
-                
+
                 gen++;
-                int start = (int)(population.Length*0.10);
-                int end = (int)(population.Length * 0.80);
-                for (int i = start; i < end; i++)
-                {
-                    population[i].Brain.Mutate(rand, 0.5);
-                }
-                for (int i = end; i < population.Length; i++)
-                {
-                    population[i].Brain.Randomize(rand);
-                }
-                if (ks.IsKeyDown(Keys.Space) && prevKs.IsKeyUp(Keys.Space))
-                {
-                    bird.Jump();
-                }
+
+
+
             }
             base.Update(gameTime);
         }
-           
+
 
         /// <summary>
         /// This is called when the game should draw itself.
@@ -290,19 +219,22 @@ namespace flappyBird
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Draw(GameTime gameTime)
         {
-            
+
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
             // TODO: Add your drawing code here
             spriteBatch.Begin();
-            bird.Draw(spriteBatch);
+            //bird.Draw(spriteBatch);
             for (int i = 0; i < population.Length; i++)
             {
                 population[i].Draw(spriteBatch);
+
             }
             foreach (Pipes currentPipes in pipes)
             {
                 currentPipes.Draw(spriteBatch);
+
+
             }
             spriteBatch.DrawString(font, $"Score: {counter}", new Vector2(10, 10), Color.Black);
             spriteBatch.End();
