@@ -1,4 +1,4 @@
 Source File,Dest File,Processor Type,Content Type,Source File Size,Dest File Size,Build Seconds
-"D:/Github/flappyBird/Content/flappy-bird.png","D:/Github/flappyBird/Content/bin/Windows/Content/flappy-bird.xnb","TextureProcessor","Texture2DContent",28528,1242361,0.0649929
-"D:/Github/flappyBird/Content/Font.spritefont","D:/Github/flappyBird/Content/bin/Windows/Content/Font.xnb","FontDescriptionProcessor","SpriteFontContent",2068,21521,0.3214243
-"D:/Github/flappyBird/Content/pipe.png","D:/Github/flappyBird/Content/bin/Windows/Content/pipe.xnb","TextureProcessor","Texture2DContent",9716,14125,0.4786097
+"D:/Github/FlappyBirdGeneticLearning/flappyBird/Content/flappy-bird.png","D:/Github/FlappyBirdGeneticLearning/flappyBird/Content/bin/Windows/Content/flappy-bird.xnb","TextureProcessor","Texture2DContent",28528,1242361,0.0770679
+"D:/Github/FlappyBirdGeneticLearning/flappyBird/Content/Font.spritefont","D:/Github/FlappyBirdGeneticLearning/flappyBird/Content/bin/Windows/Content/Font.xnb","FontDescriptionProcessor","SpriteFontContent",2068,21521,0.2930554
+"D:/Github/FlappyBirdGeneticLearning/flappyBird/Content/pipe.png","D:/Github/FlappyBirdGeneticLearning/flappyBird/Content/bin/Windows/Content/pipe.xnb","TextureProcessor","Texture2DContent",9716,14125,0.5024911

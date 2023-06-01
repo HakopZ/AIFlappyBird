@@ -1,0 +1,35 @@
+D:\Github\FlappyBirdGeneticLearning\XOR Testing\bin\Debug\net6.0\XOR Testing.exe
+D:\Github\FlappyBirdGeneticLearning\XOR Testing\bin\Debug\net6.0\XOR Testing.deps.json
+D:\Github\FlappyBirdGeneticLearning\XOR Testing\bin\Debug\net6.0\XOR Testing.runtimeconfig.json
+D:\Github\FlappyBirdGeneticLearning\XOR Testing\bin\Debug\net6.0\XOR Testing.dll
+D:\Github\FlappyBirdGeneticLearning\XOR Testing\bin\Debug\net6.0\XOR Testing.pdb
+D:\Github\FlappyBirdGeneticLearning\XOR Testing\obj\Debug\net6.0\XOR Testing.csproj.AssemblyReference.cache
+D:\Github\FlappyBirdGeneticLearning\XOR Testing\obj\Debug\net6.0\XOR Testing.GeneratedMSBuildEditorConfig.editorconfig
+D:\Github\FlappyBirdGeneticLearning\XOR Testing\obj\Debug\net6.0\XOR Testing.AssemblyInfoInputs.cache
+D:\Github\FlappyBirdGeneticLearning\XOR Testing\obj\Debug\net6.0\XOR Testing.AssemblyInfo.cs
+D:\Github\FlappyBirdGeneticLearning\XOR Testing\obj\Debug\net6.0\XOR Testing.csproj.CoreCompileInputs.cache
+D:\Github\FlappyBirdGeneticLearning\XOR Testing\obj\Debug\net6.0\XOR Testing.dll
+D:\Github\FlappyBirdGeneticLearning\XOR Testing\obj\Debug\net6.0\refint\XOR Testing.dll
+D:\Github\FlappyBirdGeneticLearning\XOR Testing\obj\Debug\net6.0\XOR Testing.pdb
+D:\Github\FlappyBirdGeneticLearning\XOR Testing\obj\Debug\net6.0\XOR Testing.genruntimeconfig.cache
+D:\Github\FlappyBirdGeneticLearning\XOR Testing\obj\Debug\net6.0\ref\XOR Testing.dll
+D:\Github\FlappyBirdGeneticLearning\XOR Testing\bin\Debug\net6.0\flappyBird.exe
+D:\Github\FlappyBirdGeneticLearning\XOR Testing\bin\Debug\net6.0\MonoGame.Framework.dll
+D:\Github\FlappyBirdGeneticLearning\XOR Testing\bin\Debug\net6.0\SharpDX.MediaFoundation.dll
+D:\Github\FlappyBirdGeneticLearning\XOR Testing\bin\Debug\net6.0\SharpDX.dll
+D:\Github\FlappyBirdGeneticLearning\XOR Testing\bin\Debug\net6.0\SharpDX.XAudio2.dll
+D:\Github\FlappyBirdGeneticLearning\XOR Testing\bin\Debug\net6.0\SharpDX.DXGI.dll
+D:\Github\FlappyBirdGeneticLearning\XOR Testing\bin\Debug\net6.0\SharpDX.Direct3D11.dll
+D:\Github\FlappyBirdGeneticLearning\XOR Testing\bin\Debug\net6.0\SharpDX.Direct2D1.dll
+D:\Github\FlappyBirdGeneticLearning\XOR Testing\bin\Debug\net6.0\SharpDX.XInput.dll
+D:\Github\FlappyBirdGeneticLearning\XOR Testing\bin\Debug\net6.0\flappyBird.pdb
+D:\Github\FlappyBirdGeneticLearning\XOR Testing\bin\Debug\net6.0\flappyBird.exe.config
+D:\Github\FlappyBirdGeneticLearning\XOR Testing\bin\Debug\net6.0\MonoGame.Framework.xml
+D:\Github\FlappyBirdGeneticLearning\XOR Testing\bin\Debug\net6.0\SharpDX.MediaFoundation.xml
+D:\Github\FlappyBirdGeneticLearning\XOR Testing\bin\Debug\net6.0\SharpDX.xml
+D:\Github\FlappyBirdGeneticLearning\XOR Testing\bin\Debug\net6.0\SharpDX.XAudio2.xml
+D:\Github\FlappyBirdGeneticLearning\XOR Testing\bin\Debug\net6.0\SharpDX.DXGI.xml
+D:\Github\FlappyBirdGeneticLearning\XOR Testing\bin\Debug\net6.0\SharpDX.Direct3D11.xml
+D:\Github\FlappyBirdGeneticLearning\XOR Testing\bin\Debug\net6.0\SharpDX.Direct2D1.xml
+D:\Github\FlappyBirdGeneticLearning\XOR Testing\bin\Debug\net6.0\SharpDX.XInput.xml
+D:\Github\FlappyBirdGeneticLearning\XOR Testing\obj\Debug\net6.0\XOR Testing.csproj.CopyComplete

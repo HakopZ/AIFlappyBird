@@ -24,16 +24,15 @@ namespace flappyBird
             this.gravity = gravity;
             Brain = new Network(ActivationAndErrorFunction.BinaryStepActivationFunction, 2, 2, 4, 1);
         }
-        public override void Update(GameTime gameTime)
+        public override void Update(GameTime gameTime, float dTime, float sSpeed)
         {
             KeyboardState ks = Keyboard.GetState();
             if (!HitPipe)
             {
                 speed.Y -= (float)gravity;
-                Position.Y += speed.Y;
+                Position.Y += (speed.Y * dTime * sSpeed);
                 lastkS = ks;
                 Fitness++;
-                base.Update(gameTime);
             }
         }
 

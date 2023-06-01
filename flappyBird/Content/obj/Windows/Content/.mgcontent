@@ -4,9 +4,9 @@
   <Platform>Windows</Platform>
   <Config />
   <SourceFiles>
-    <File>D:/Github/flappyBird/Content/pipe.png</File>
-    <File>D:/Github/flappyBird/Content/Font.spritefont</File>
-    <File>D:/Github/flappyBird/Content/flappy-bird.png</File>
+    <File>D:/Github/FlappyBirdGeneticLearning/flappyBird/Content/pipe.png</File>
+    <File>D:/Github/FlappyBirdGeneticLearning/flappyBird/Content/Font.spritefont</File>
+    <File>D:/Github/FlappyBirdGeneticLearning/flappyBird/Content/flappy-bird.png</File>
   </SourceFiles>
   <DestFiles>
     <File xsi:nil="true" />

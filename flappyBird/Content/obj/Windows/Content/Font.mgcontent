@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PipelineBuildEvent xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-  <SourceFile>D:/Github/flappyBird/Content/Font.spritefont</SourceFile>
+  <SourceFile>D:/Github/FlappyBirdGeneticLearning/flappyBird/Content/Font.spritefont</SourceFile>
   <SourceTime>2023-05-29T13:15:47.7974749-07:00</SourceTime>
-  <DestFile>D:/Github/flappyBird/Content/bin/Windows/Content/Font.xnb</DestFile>
-  <DestTime>2023-05-29T13:17:46.6976094-07:00</DestTime>
+  <DestFile>D:/Github/FlappyBirdGeneticLearning/flappyBird/Content/bin/Windows/Content/Font.xnb</DestFile>
+  <DestTime>2023-05-31T18:04:46.7135263-07:00</DestTime>
   <Importer>FontDescriptionImporter</Importer>
   <ImporterTime>2018-12-08T08:35:54-08:00</ImporterTime>
   <Processor>FontDescriptionProcessor</Processor>

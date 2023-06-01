@@ -50,7 +50,7 @@ namespace flappyBird
         {
             spriteBatch.Draw(Texture, Position, null, color, (float)rotation, Origin, (float)scale, spriteEffects, 0f);
         }
-        public virtual void Update(GameTime gameTime)
+        public virtual void Update(GameTime gameTime, float dTime, float sSpeed)
         {
 
         }

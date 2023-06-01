@@ -61,9 +61,9 @@ namespace flappyBird
             BottomPipe.Draw(spriteBatch);
         }
 
-        public void Update(GameTime gameTime)
+        public void Update(GameTime gameTime, float dTime, float sSpeed)
         {
-            X -= 5;
+            X -= (5 * dTime * sSpeed);
         }
 
     }

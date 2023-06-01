@@ -75,9 +75,10 @@ namespace flappyBird
                 }
             }
         }
-        public static void Train(Bird[] population, Random random, double mutationRate)
+        public static void Train((Network net, double fitness)[] population, Random random, double mutationRate, bool flip = false)
         {
-            Array.Sort(population, (a, b) => b.Fitness.CompareTo(a.Fitness));
+
+            Array.Sort(population, (a, b) => !flip ? b.fitness.CompareTo(a.fitness) : a.fitness.CompareTo(b.fitness));
 
             int start = (int)(population.Length * 0.1);
             int end = (int)(population.Length * 0.9);
@@ -85,15 +86,16 @@ namespace flappyBird
             //Notice that this process is only called on networks in the middle 80% of the array
             for (int i = start; i < end; i++)
             {
-                Crossover(population[random.Next(start)].Brain, population[i].Brain, random);
-                Mutate(population[i].Brain, random, mutationRate);
+                Crossover(population[random.Next(start)].net, population[i].net, random);
+                Mutate(population[i].net, random, mutationRate);
             }
 
             //Removes the worst performing networks
             for (int i = end; i < population.Length; i++)
             {
-                population[i].Brain.Randomize(random, -6, 6);
+                population[i].net.Randomize(random, -5, 5);
             }
         }
+        public static void Train(Bird[] population, Random random, double mutationRate) => Train(population.Select(x=>(x.Brain, x.Fitness)).ToArray(), random, mutationRate);
     }
 }

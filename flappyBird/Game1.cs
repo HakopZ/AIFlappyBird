@@ -28,6 +28,10 @@ namespace flappyBird
         KeyboardState ks;
         KeyboardState prevKs;
         Bird[] population;
+        float simulationSpeed = 1.0f;
+        float renderSpeed = 1.0f / 60.0f; // Render at 60 frames per second by default
+        float modifiedRenderSpeed;
+        float timeSinceLastRender = 0.0f;
         public Game1()
         {
             graphics = new GraphicsDeviceManager(this);
@@ -54,7 +58,7 @@ namespace flappyBird
         protected override void LoadContent()
         {
             // Create a new SpriteBatch, which can be used to draw textures.
-
+            modifiedRenderSpeed = renderSpeed / simulationSpeed;
             spriteBatch = new SpriteBatch(GraphicsDevice);
             font = Content.Load<SpriteFont>("Font");
             pipes = new List<Pipes>();
@@ -71,6 +75,8 @@ namespace flappyBird
 
                 population[x].Brain.Randomize(rand, -2, 2);
             }
+
+            InitiatePipes();
         }
 
         /// <summary>
@@ -88,19 +94,25 @@ namespace flappyBird
         /// </summary>
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         /// 
-       
-        void MakePipe(GameTime gameTime)
+        void InitiatePipes()
         {
-
-            pipeSpan += gameTime.ElapsedGameTime;
-            if (pipeSpan > TimeSpan.FromMilliseconds(1000) || pipes.Count == 0)
-
+            for (int i = 0; i < 4; i++)
             {
-                pipeSpan = TimeSpan.Zero;
-                int RandomY = rand.Next(-350, -100);
-                pipes.Add(new Pipes(3f, Content.Load<Texture2D>("pipe"), new Vector2(GraphicsDevice.Viewport.Width, RandomY), Color.White, 0f));
+                CreatePipe(GraphicsDevice.Viewport.Width + (300 * i));
             }
-
+        }
+        void MakePipe()
+        {
+            if(pipes.First().X + pipes.First().width <= 0)
+            {
+                pipes.Remove(pipes[0]);
+                CreatePipe((float)pipes.Last().X + 300f);
+            }
+        }
+        void CreatePipe(float X)
+        {
+            int RandomY = rand.Next(-350, -100);
+            pipes.Add(new Pipes(3f, Content.Load<Texture2D>("pipe"), new Vector2(X, RandomY), Color.White, 0f));
         }
         void NeverForget()
         {
@@ -112,24 +124,36 @@ namespace flappyBird
             {
                 population[i].HitPipe = false;
                 population[i].Fitness = 0;
-                
+
                 population[i].Position = new Vector2(50, GraphicsDevice.Viewport.Y / 2);
             }
             counter = 0;
         }
+
         protected override void Update(GameTime gameTime)
         {
             prevKs = ks;
             ks = Keyboard.GetState();
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
+            float deltaTime = (float)gameTime.ElapsedGameTime.TotalSeconds; // Elapsed time since last update
+            timeSinceLastRender += deltaTime;
 
+            if (ks.IsKeyDown(Keys.Up))
+            {
+                simulationSpeed += 0.5f; // Increase speed by 0.5
+            }
 
-            MakePipe(gameTime);
-            
+            if (ks.IsKeyDown(Keys.Down))
+            {
+                simulationSpeed -= 0.5f; // Decrease speed by 0.5
+            }
+
+            MakePipe();
+
             for (int i = 0; i < pipes.Count; i++)
             {
-                pipes[i].Update(gameTime);
+                pipes[i].Update(gameTime, deltaTime, simulationSpeed);
             }
 
             if (bird.Position.Y - bird.Hitbox.Height / 2 < 0 || bird.Position.Y + bird.Hitbox.Height / 2 > GraphicsDevice.Viewport.Height)
@@ -154,11 +178,11 @@ namespace flappyBird
                     }
                 }
             }
-            
+
             for (int i = 0; i < population.Length; i++)
             {
-                population[i].Update(gameTime);
-               
+                population[i].Update(gameTime, deltaTime, simulationSpeed);
+
                 if (population[i].Hitbox.Y + population[i].Hitbox.Height / 2 < 0 || population[i].Hitbox.Y - population[i].Hitbox.Height / 2 > GraphicsDevice.Viewport.Height)
                 {
                     population[i].HitPipe = true;
@@ -171,12 +195,12 @@ namespace flappyBird
                         population[i].HitPipe = true;
                         break;
                     }
-                    
+
                 }
-                if(!population[i].HitPipe)
+                if (!population[i].HitPipe)
                     population[i].Fitness++;
             }
-            foreach(var pipe in pipes)
+            foreach (var pipe in pipes)
             {
                 if (!pipe.isPassed && population[0].Position.X > pipe.X)
                 {
@@ -184,14 +208,14 @@ namespace flappyBird
                     counter++;
                 }
             }
-            
-            if (bird.HitPipe)
-            {
-                bird.speed = new Vector2(0, 0);
-            }
-            bird.Update(gameTime);
+
+            //if (bird.HitPipe)
+            //{
+            //    bird.speed = new Vector2(0, 0);
+            //}
+            //bird.Update(gameTime);
             bool done = true;
-            foreach(var b in population)
+            foreach (var b in population)
             {
                 if (!b.HitPipe)
                 {
@@ -219,27 +243,30 @@ namespace flappyBird
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Draw(GameTime gameTime)
         {
-
-            GraphicsDevice.Clear(Color.CornflowerBlue);
-
-            // TODO: Add your drawing code here
-            spriteBatch.Begin();
-            //bird.Draw(spriteBatch);
-            for (int i = 0; i < population.Length; i++)
+            if (timeSinceLastRender >= modifiedRenderSpeed)
             {
-                population[i].Draw(spriteBatch);
+                GraphicsDevice.Clear(Color.CornflowerBlue);
 
+                // TODO: Add your drawing code here
+                spriteBatch.Begin();
+                //bird.Draw(spriteBatch);
+                for (int i = 0; i < population.Length; i++)
+                {
+                    population[i].Draw(spriteBatch);
+
+                }
+                foreach (Pipes currentPipes in pipes)
+                {
+                    currentPipes.Draw(spriteBatch);
+
+
+                }
+                spriteBatch.DrawString(font, $"Score: {counter}", new Vector2(10, 10), Color.Black);
+                spriteBatch.End();
+
+                base.Draw(gameTime);
+                timeSinceLastRender = 0.0f;
             }
-            foreach (Pipes currentPipes in pipes)
-            {
-                currentPipes.Draw(spriteBatch);
-
-
-            }
-            spriteBatch.DrawString(font, $"Score: {counter}", new Vector2(10, 10), Color.Black);
-            spriteBatch.End();
-
-            base.Draw(gameTime);
         }
     }
 }
