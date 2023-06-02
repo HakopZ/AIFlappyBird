@@ -29,7 +29,7 @@ namespace flappyBird
             KeyboardState ks = Keyboard.GetState();
             if (!HitPipe)
             {
-                speed.Y -= (float)gravity;
+                speed.Y -= (float)(gravity * dTime * sSpeed);
                 Position.Y += (speed.Y * dTime * sSpeed);
                 lastkS = ks;
                 Fitness++;
@@ -38,7 +38,7 @@ namespace flappyBird
 
         public void Jump()
         {
-            speed.Y = -9;
+            speed.Y = -6;
         }
 
         public override void Draw(SpriteBatch spritebatch)

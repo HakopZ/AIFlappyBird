@@ -117,6 +117,7 @@ namespace flappyBird
         void NeverForget()
         {
             pipes.Clear();
+            InitiatePipes();
             bird.HitPipe = false;
             bird.Position = new Vector2(50, 50);
 
